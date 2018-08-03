@@ -1,7 +1,15 @@
-var express = require('express')
-var app = express()
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/webdev-summer2-2018-mongodb-surupac',
+    { useNewUrlParser: true });
 
-var session = require('express-session')
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+var session = require('express-session');
 app.use(session({
     resave: false,
     saveUninitialized: true,
@@ -42,5 +50,9 @@ function getSession(req, res) {
     var value = req.session[name];
     res.send(value);
 }
+
+var userService = require('./services/user.service.server');
+userService(app);
+
 
 app.listen(3000)
