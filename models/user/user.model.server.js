@@ -11,9 +11,15 @@ function findAllUsers() {
     return userModel.find({});
 }
 
+function findUserByCredentials(credentials) {
+    return userModel.findOne(credentials, {username: 1});
+}
+
 var api = {
     createUser: createUser,
-    findAllUsers: findAllUsers
+    findAllUsers: findAllUsers,
+    findUserByCredentials: findUserByCredentials
+
 }
 
 module.exports= api;
