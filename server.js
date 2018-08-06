@@ -64,5 +64,13 @@ function getSession(req, res) {
 var userService = require('./services/user.service.server');
 userService(app);
 
+var sectionService = require('./services/section.service.server');
+sectionService(app);
 
-app.listen(3000)
+console.log("Server started")
+/*
+app.listen(3000)*/
+
+app.listen(process.env.PORT || 3000, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+});
