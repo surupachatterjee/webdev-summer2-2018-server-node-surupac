@@ -6,6 +6,7 @@ module.exports = function (app) {
     app.put('/api/section/:sectionId', updateSection);
     app.post('/api/section/:sectionId/enrollment', enrollStudentInSection);
     app.get('/api/student/:studentId/section/:sectionId', findEnrollmentByCredentials);
+    app.get('/api/student/section', findEnrolledSectionsForStudent);
     /*app.delete('/api/section/:sectionId/enrollment/:enrollmentId', unEnrollStudentFromSection);*/
 
     var sectionModel = require('../models/sections/section.model.server');
@@ -75,6 +76,16 @@ module.exports = function (app) {
         enrollmentModel.findEnrollmentByCredentials(credentials)
             .then(function (user) {
                 res.json(user);
+            })
+    }
+
+
+    function findEnrolledSectionsForStudent(req,res) {
+        var currentUser = req.session.currentUser;
+        var studentId = currentUser._id;
+        enrollmentModel.findEnrolledSectionsForStudent(studentId)
+            .then(function (enrollmentsforstudent) {
+                res.json(enrollmentsforstudent)
             })
     }
 

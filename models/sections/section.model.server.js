@@ -36,6 +36,7 @@ function incrementSeatsInSection(sectionId) {
     });
 }
 
+
 var api = {
     createSection:createSection,
     findAllSectionsForCourse:findAllSectionsForCourse,

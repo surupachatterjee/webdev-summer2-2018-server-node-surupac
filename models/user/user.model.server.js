@@ -12,7 +12,7 @@ function findAllUsers() {
 }
 
 function findUserByCredentials(credentials) {
-    return userModel.findOne(credentials, {});
+    return userModel.findOne(credentials);
 }
 
 function updateUser(userId, updatedUser) {
