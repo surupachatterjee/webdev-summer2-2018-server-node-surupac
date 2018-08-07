@@ -8,6 +8,7 @@ var userSchema = mongoose.Schema({
     email:String,
     phone:String,
     dateOfBirth:Date,
+    sections:[String]
 }, {collection: 'user'});
 
 module.exports = userSchema;

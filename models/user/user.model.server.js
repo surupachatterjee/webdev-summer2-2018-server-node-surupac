@@ -12,9 +12,13 @@ function findAllUsers() {
 }
 
 function findUserByCredentials(credentials) {
-    return userModel.findOne(credentials, {username: 1});
+    return userModel.findOne(credentials, {});
 }
 
+function updateUser(userId, updatedUser) {
+    return userModel.update({_id: userId},
+        {$set: updatedUser})
+}
 
 /*function findUserById(userId) {
     return userSchema.findById(userId);
@@ -24,7 +28,8 @@ function findUserByCredentials(credentials) {
 var api = {
     createUser: createUser,
     findAllUsers: findAllUsers,
-    findUserByCredentials: findUserByCredentials
+    findUserByCredentials: findUserByCredentials,
+    updateUser:updateUser
     //findUserById:findUserById
 
 }

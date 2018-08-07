@@ -7,6 +7,7 @@ module.exports = function (app) {
     app.get('/api/profile',profile);
     app.post('/api/login',login);
     app.post('/api/logout', logout);
+    app.put('/api/user/:userId', updateUser);
 
     var userModel = require('../models/user/user.model.server');
 
@@ -27,13 +28,25 @@ module.exports = function (app) {
     }*/
 
 
-    function login(req, res) {
+    /*function login(req, res) {
         var credentials = req.body;
         userModel
             .findUserByCredentials(credentials)
             .then(function(user) {
                 req.session['currentUser'] = user;
                 res.json(user);
+            })
+    }*/
+
+    function login(req, res) {
+        // console.log('in login');
+        var credentials = req.body;
+        userModel
+            .findUserByCredentials(credentials)
+            .then(function(user) {
+                console.log(user);
+                req.session['currentUser'] = user;
+                res.send(user);
             })
     }
 
@@ -54,7 +67,24 @@ module.exports = function (app) {
     }
 
     function profile(req,res) {
-        res.send(req.session['currentUser']);
+        if(req.session['currentUser'] != null) {
+            res.send(req.session['currentUser']);
+        } else { res.send(
+            {
+                'username' : 'No session maintained'
+            });}
 
+    }
+
+
+    function updateUser(req, res) {
+        var userId = req.params['userId'];
+        var user = req.body;
+        userModel.updateUser(userId, user)
+            .then(function (user) {
+                req.session['currentUser'] =user;
+                console.log("Updated user :" + user)
+                res.send(user);
+            })
     }
 }
