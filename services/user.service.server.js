@@ -8,9 +8,18 @@ module.exports = function (app) {
     app.post('/api/login',login);
     app.post('/api/logout', logout);
     app.put('/api/user/:userId', updateUser);
+    app.get('/api/user/:username',findUserByUsername);
 
     var userModel = require('../models/user/user.model.server');
 
+
+    function findUserByUsername(req,res) {
+        var username = req.params['username'];
+        userModel.findUserByUsername(username)
+            .then(function (user) {
+                res.json(user);
+            })
+    }
 
     function findAllUsers(req, res) {
         userModel.findAllUsers()
@@ -56,17 +65,28 @@ module.exports = function (app) {
     }
 
 
-    function createUser(req,res) {
+    /*function createUser(req,res) {
         var user = req.body;
         userModel.createUser(user).
             then(function (user) {
             req.session['currentUser'] =user;
+            console.log(req.session['currentUser'].username);
             res.send(user);
         })
 
+    }*/
+
+    function createUser(req, res) {
+        var user = req.body;
+        userModel.createUser(user)
+            .then(function (user) {
+                req.session['currentUser'] = user;
+                res.send(user);
+            })
     }
 
-    function profile(req,res) {
+
+    /*function profile(req,res) {
         if(req.session['currentUser'] != null) {
             res.send(req.session['currentUser']);
         } else { res.send(
@@ -74,8 +94,19 @@ module.exports = function (app) {
                 'username' : 'No session maintained'
             });}
 
-    }
+    }*/
 
+    function profile(req, res) {
+        console.log(req.session);
+        if(req.session['currentUser'] != null) {
+            res.send(req.session['currentUser']);
+        } else { res.send(
+            {
+                'username' : 'No session maintained'
+            });}
+
+
+    }
 
     function updateUser(req, res) {
         var userId = req.params['userId'];
