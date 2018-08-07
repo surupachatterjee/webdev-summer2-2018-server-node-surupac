@@ -1,14 +1,25 @@
-var mongoose= require('mongoose');
-var enrollmentSchema = mongoose.Schema({
-    section: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'SectionModel'
-    },
-    student: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserModel'
-    },
-    grade:String
-}, {collection: 'enrollment'});
+var mongoose = require('mongoose');
+var enrollmentSchema = require('./enrollment.schema.server');
+var enrollmentModel = mongoose.model(
+    'EnrollmentModel',
+    enrollmentSchema
+);
 
-module.exports = enrollmentSchema;
+function enrollStudentInSection(enrollment) {
+    return enrollmentModel.create(enrollment);
+}
+
+
+function findEnrollmentByCredentials(credentials) {
+    return enrollmentModel.findOne(credentials, {student: 1, section: 1});
+}
+
+
+
+module.exports = {
+    enrollStudentInSection: enrollStudentInSection,
+    //unEnrollStudentInSection: unEnrollStudentInSection,
+    //findSectionsForStudent: findSectionsForStudent,
+    findEnrollmentByCredentials: findEnrollmentByCredentials
+    //unEnrollAllStudentsForSection: unEnrollAllStudentsForSection
+};

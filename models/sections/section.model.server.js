@@ -19,11 +19,30 @@ function updateSection(section,sectionId) {
         {$set: section})
 }
 
+function decrementSeatsInSection(sectionId) {
+    return sectionModel.update({
+        _id: sectionId
+    }, {
+        $inc: {seats: -1}
+    });
+}
+
+
+function incrementSeatsInSection(sectionId) {
+    return sectionModel.update({
+        _id: sectionId
+    }, {
+        $inc: {seats: +1}
+    });
+}
+
 var api = {
     createSection:createSection,
     findAllSectionsForCourse:findAllSectionsForCourse,
     deleteSection:deleteSection,
-    updateSection:updateSection
+    updateSection:updateSection,
+    incrementSeatsInSection:incrementSeatsInSection,
+    decrementSeatsInSection:decrementSeatsInSection
 
 }
 

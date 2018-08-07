@@ -4,8 +4,12 @@ module.exports = function (app) {
     app.get('/api/course/:courseId/section',findAllSectionsForCourse);
     app.delete('/api/section/:sectionId', deleteSection);
     app.put('/api/section/:sectionId', updateSection);
+    app.post('/api/section/:sectionId/enrollment', enrollStudentInSection);
+    app.get('/api/student/:studentId/section/:sectionId', findEnrollmentByCredentials);
+    /*app.delete('/api/section/:sectionId/enrollment/:enrollmentId', unEnrollStudentFromSection);*/
 
     var sectionModel = require('../models/sections/section.model.server');
+    var enrollmentModel = require('../models/enrollment/enrollment.model.server');
 
     function createSection(req,res) {
         var section = req.body;
@@ -41,4 +45,38 @@ module.exports = function (app) {
                 res.send(section);
             })
     }
+
+    
+    function enrollStudentInSection(req,res) {
+        var sectionId = req.params.sectionId;
+        var currentUser = req.session.currentUser;
+        var studentId = currentUser._id;
+        var enrollment = {
+            student: studentId,
+            section: sectionId
+        };
+        sectionModel.decrementSeatsInSection(sectionId)
+            .then(function () {
+                return enrollmentModel.enrollStudentInSection(enrollment)
+            })
+            .then(function (enrollment) {
+                res.json(enrollment);
+            })
+
+    }
+    
+    function  findEnrollmentByCredentials(req,res) {
+        var section = req.params['sectionId'];
+        var student = req.params['studentId'];
+        const credentials = {
+            student: student,
+            section: section
+        };
+        enrollmentModel.findEnrollmentByCredentials(credentials)
+            .then(function (user) {
+                res.json(user);
+            })
+    }
+
+    
 };
