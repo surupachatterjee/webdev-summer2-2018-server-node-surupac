@@ -2,10 +2,10 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/webdev-summer2-2018-mongodb-surupac',
-    { useNewUrlParser: true });
-/*mongoose.connect('mongodb://webdevstc:webdevstc2018@ds113942.mlab.com:13942/webdev-summer2-2018-mongodb-surupac',
+/*mongoose.connect('mongodb://localhost:27017/webdev-summer2-2018-mongodb-surupac',
     { useNewUrlParser: true });*/
+mongoose.connect('mongodb://webdevstc:webdevstc2018@ds113942.mlab.com:13942/webdev-summer2-2018-mongodb-surupac',
+    { useNewUrlParser: true });
 
 
 app.use(bodyParser.json());
