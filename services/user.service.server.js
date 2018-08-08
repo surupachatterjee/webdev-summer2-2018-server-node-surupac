@@ -3,7 +3,7 @@ module.exports = function (app) {
 
     app.get('/api/user', findAllUsers);
     //app.get('/api/user/:userId', findUserById);
-    app.post('/api/user', createUser);
+    app.post('/api/user', createUser);// this is to register the user in mongodb
     app.get('/api/profile',profile);
     app.post('/api/login',login);
     app.post('/api/logout', logout);
@@ -54,8 +54,15 @@ module.exports = function (app) {
             .findUserByCredentials(credentials)
             .then(function(user) {
                 console.log(user);
-                req.session['currentUser'] = user;
-                res.send(user);
+                if(user != null) {
+                    req.session['currentUser'] = user;
+                    res.send(user);
+                }else{
+                    user ={
+                        username:"Invalid credentials"
+                    }
+                    res.send(user);
+                }
             })
     }
 
