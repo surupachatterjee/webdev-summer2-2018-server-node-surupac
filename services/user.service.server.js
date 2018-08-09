@@ -9,9 +9,20 @@ module.exports = function (app) {
     app.post('/api/logout', logout);
     app.put('/api/user/:userId', updateUser);
     app.get('/api/user/:username',findUserByUsername);
+    app.delete('/api/profile',deleteProfile);
 
     var userModel = require('../models/user/user.model.server');
+    var enrollmentModel = require('../models/enrollment/enrollment.model.server');
 
+    function deleteProfile(req,res) {
+        var user = req.body;
+        var userId = user._id;
+        enrollmentModel.deleteEnrollmentForStudent(userId)
+            .then(function () {
+                userModel.deleteUserById(userId)
+            })
+
+    }
 
     function findUserByUsername(req,res) {
         var username = req.params['username'];

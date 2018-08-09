@@ -24,6 +24,9 @@ function updateUser(userId, updatedUser) {
         {$set: updatedUser})
 }
 
+function deleteUserById(userId) {
+    return userModel.remove({_id : userId});
+}
 /*function findUserById(userId) {
     return userSchema.findById(userId);
 }*/
@@ -34,7 +37,8 @@ var api = {
     findAllUsers: findAllUsers,
     findUserByCredentials: findUserByCredentials,
     updateUser:updateUser,
-    findUserByUsername:findUserByUsername
+    findUserByUsername:findUserByUsername,
+    deleteUserById:deleteUserById
     //findUserById:findUserById
 
 }

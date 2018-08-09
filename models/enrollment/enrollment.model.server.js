@@ -29,7 +29,9 @@ function unEnrollAllStudentsForSection(sectionId) {
 }
 
 
-
+function deleteEnrollmentForStudent(studentId) {
+    return enrollmentModel.remove({student : studentId});
+}
 
 
 module.exports = {
@@ -37,5 +39,6 @@ module.exports = {
     findEnrolledSectionsForStudent:findEnrolledSectionsForStudent,
     unEnrollStudentInSection:unEnrollStudentInSection,
     findEnrollmentByCredentials: findEnrollmentByCredentials,
-    unEnrollAllStudentsForSection:unEnrollAllStudentsForSection
+    unEnrollAllStudentsForSection:unEnrollAllStudentsForSection,
+    deleteEnrollmentForStudent:deleteEnrollmentForStudent
 };
