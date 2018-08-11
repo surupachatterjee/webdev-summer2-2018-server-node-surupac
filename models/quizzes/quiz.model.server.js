@@ -12,11 +12,19 @@ function findAllQuizzes () {
 
 function findQuizById (quizId) {
     return quizModel.findById(quizId)
+        .populate('questions')
+        .exec()
 }
 
 function updateQuiz (quizId,newQuiz) {
     return quizModel.update({_id : quizId},{
         $set : newQuiz
+    })
+}
+
+function addQuestion(quizId,questionId) {
+   return quizModel.update({_id:quizId},{
+        $push :{questions:questionId}
     })
 }
 
@@ -29,7 +37,8 @@ var api ={
     findAllQuizzes:findAllQuizzes,
     findQuizById:findQuizById,
     updateQuiz:updateQuiz,
-    deleteQuiz:deleteQuiz
+    deleteQuiz:deleteQuiz,
+    addQuestion:addQuestion
 };
 
 module.exports = api;

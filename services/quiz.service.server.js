@@ -6,6 +6,7 @@ module.exports = function (app) {
     app.get('/api/quiz/:qid', findQuizById);
     app.put('/api/quiz/:qid', updateQuiz);
     app.delete('/api/quiz/:qid', deleteQuiz);
+    app.put('/api/quiz/:qid/question/:questionId',addQuestion);
 
     function createQuiz(req,res) {
         quizModel.createQuiz(req.body)
@@ -14,8 +15,19 @@ module.exports = function (app) {
             })
     }
 
+    function addQuestion(req,res) {
+        console.log("Inside addquestion" +req.params['qid']+
+        ": " + req.params['questionId']);
+        quizModel
+            .addQuestion(req.params['qid'],
+                req.params['questionId'])
+            .then(status => res.send(status),
+                    error => res.send(error))
+    }
+
 
     function findAllQuizzes(req,res) {
+        //console.log("inside find all quizzes");
         quizModel.findAllQuizzes()
             .then(function (quizzes) {
                 res.send(quizzes);
@@ -23,6 +35,7 @@ module.exports = function (app) {
     }
 
     function findQuizById(req,res) {
+        console.log("onside find quiz by id");
         quizModel.findQuizById(req.params['qid'])
             .then(function (quiz) {
                 res.json(quiz);
