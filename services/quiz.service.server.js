@@ -8,12 +8,15 @@ module.exports = function (app) {
     app.delete('/api/quiz/:qid', deleteQuiz);
     app.put('/api/quiz/:qid/question/:questionId',addQuestion);
 
+
     function createQuiz(req,res) {
         quizModel.createQuiz(req.body)
             .then(function (quiz) {
                 res.json(quiz);
             })
     }
+
+
 
     function addQuestion(req,res) {
         console.log("Inside addquestion" +req.params['qid']+

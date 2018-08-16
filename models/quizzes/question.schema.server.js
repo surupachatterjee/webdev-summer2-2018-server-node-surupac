@@ -3,11 +3,16 @@ module.exports = mongoose.Schema({
     title: String,
     points: Number,
     description: String,
+    essayAnswer:String,
+    fillBlanksAnswer:Object,
+    trueFalseAnswer:Boolean,
     choices: [{
         text: String,
         value: String,
         correct: Boolean
     }],
+    blanks:[],
+    isTrue:Boolean,
     questionType: {
         type: String,
         enum: [
@@ -16,5 +21,6 @@ module.exports = mongoose.Schema({
             'TRUE_FALSE',
             'CHOICE'
         ]
-    }
+    },
+
 }, {collection: 'question'});
