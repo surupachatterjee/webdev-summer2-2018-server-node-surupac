@@ -68,10 +68,13 @@ module.exports = function (app) {
                 }
             }
             if(question.questionType === 'FILL_BLANKS'){
-                if (assert.deepEqual(question.fillBlanksAnswer,question.fillBlanksAnswers,'N') !== 'N')
-                    pointsObtained = question.points;
-                else
+                try {
+                    if (assert.deepEqual(question.fillBlanksAnswer, question.fillBlanksAnswers, 'N') !== 'N')
+                        pointsObtained = question.points;
+                }
+                catch(err){
                     pointsObtained = 0;
+                }
                 grade = grade + pointsObtained;
                 return {
                     question:question._id,
