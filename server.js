@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin",
-        /*"http://localhost:4200");*/
+      /*  "http://localhost:4200");*/
         "https://course-mgmt-angular-client-stc.herokuapp.com");
     res.header("Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept");
@@ -71,6 +71,17 @@ userService(app);
 var sectionService = require('./services/section.service.server');
 sectionService(app);
 
+var quizService = require('./services/quiz.service.server');
+quizService(app);
+
+var questionService=require('./services/question.service.server');
+questionService(app);
+
+
+var submissionService = require('./services/submission.service.server');
+submissionService(app);
+
+console.log("quiz service added");
 console.log("Server started")
 /*
 app.listen(3000)*/
